@@ -1,45 +1,23 @@
 import { registerAs } from '@nestjs/config';
 
-export const envConfig = registerAs('env', () => {
-  const isProd = process.env.NODE_ENV === 'production';
-  
-  // Log presence of keys (not values) to help debug Render config
-  console.log('--- Environment Configuration Debug ---');
-  console.log('NODE_ENV:', process.env.NODE_ENV);
-  console.log('CORE_DATABASE_HOST present:', !!process.env.CORE_DATABASE_HOST);
-  console.log('CORE_DATABASE_USER present:', !!process.env.CORE_DATABASE_USER);
-  console.log('CORE_DATABASE_PASS present:', !!process.env.CORE_DATABASE_PASS);
-  console.log('CORE_DATABASE_NAME present:', !!process.env.CORE_DATABASE_NAME);
-  console.log('---------------------------------------');
+export const envConfig = registerAs('env', () => ({
+  port: Number(process.env.PORT) || 9998,
 
-  return {
-    port: Number(process.env.PORT) || 9998,
+  database: {
+    type: 'mysql',
+    host: process.env.CORE_DATABASE_HOST,
+    port: Number(process.env.CORE_DATABASE_PORT) || 3306,
+    username: process.env.CORE_DATABASE_USER,
+    password: process.env.CORE_DATABASE_PASS,
+    database: process.env.CORE_DATABASE_NAME,
+    autoLoadEntities: true,
+    synchronize: process.env.CORE_DATABASE_SYNC === '1',
+  },
 
-    database: {
-      type: 'mysql',
-      host: process.env.CORE_DATABASE_HOST,
-      port: Number(process.env.CORE_DATABASE_PORT) || 3306,
-      username: process.env.CORE_DATABASE_USER,
-      password: process.env.CORE_DATABASE_PASS,
-      database: process.env.CORE_DATABASE_NAME,
-      autoLoadEntities: true,
-      synchronize: process.env.CORE_DATABASE_SYNC === '1',
-      // Skip fallback values in production to make it easier to debug connection issues
-      ...(!isProd
-        ? {
-            host: process.env.CORE_DATABASE_HOST || 'localhost',
-            username: process.env.CORE_DATABASE_USER || 'root',
-            password: process.env.CORE_DATABASE_PASS || '123456',
-            database: process.env.CORE_DATABASE_NAME || 'web_portfolio',
-          }
-        : {}),
-    },
-
-    system_name: process.env.CORE_SYSTEM_NAME || 'Web Portfolio',
-    system_frontend_url:
-      process.env.CORE_SYSTEM_FRONTEND_URL || 'http://localhost:3000',
-    jwt_secret_key: process.env.CORE_JWT_SECRET_KEY || 'default_secret_key',
-    jwt_expires_time: process.env.CORE_EXPIRES_TIME || '1d',
-    upload_dir: process.env.CORE_UPLOAD_DIR || 'uploads/projects',
-  };
-});
+  system_name: process.env.CORE_SYSTEM_NAME || 'Web Portfolio',
+  system_frontend_url:
+    process.env.CORE_SYSTEM_FRONTEND_URL || 'http://localhost:3000',
+  jwt_secret_key: process.env.CORE_JWT_SECRET_KEY || 'default_secret_key',
+  jwt_expires_time: process.env.CORE_EXPIRES_TIME || '1d',
+  upload_dir: process.env.CORE_UPLOAD_DIR || 'uploads/projects',
+}));

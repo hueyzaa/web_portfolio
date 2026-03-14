@@ -1,3 +1,13 @@
+// Polyfill crypto for Node versions < 19 where it's not globally available
+if (!global.crypto) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    global.crypto = require('crypto').webcrypto || require('crypto');
+  } catch (e) {
+    console.error('Failed to polyfill crypto:', e);
+  }
+}
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';

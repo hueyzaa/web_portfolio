@@ -1,5 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+if (!global.crypto) {
+    try {
+        global.crypto = require('crypto').webcrypto || require('crypto');
+    }
+    catch (e) {
+        console.error('Failed to polyfill crypto:', e);
+    }
+}
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
