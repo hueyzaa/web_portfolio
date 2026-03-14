@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LandingPage from '../pages/LandingPage';
 import ProjectDetail from '../pages/Portfolio/ProjectDetail';
 import AdminLogin from '../pages/Admin/Login';
@@ -24,6 +24,7 @@ const AppRouter = () => {
       
       {/* Admin Routes */}
       <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="accounts" element={<AccountManager />} />
         <Route path="settings/main" element={<MainSettings />} />
@@ -36,6 +37,7 @@ const AppRouter = () => {
         <Route path="services" element={<ServicesManager />} />
         <Route path="contact" element={<ContactReports />} />
       </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };
