@@ -5,13 +5,22 @@ export const envConfig = registerAs('env', () => ({
 
   database: {
     type: 'mysql',
-    host: process.env.CORE_DATABASE_HOST || 'localhost',
+    host: process.env.CORE_DATABASE_HOST,
     port: Number(process.env.CORE_DATABASE_PORT) || 3306,
-    username: process.env.CORE_DATABASE_USER || 'root',
-    password: process.env.CORE_DATABASE_PASS || '123456',
-    database: process.env.CORE_DATABASE_NAME || 'web_portfolio',
+    username: process.env.CORE_DATABASE_USER,
+    password: process.env.CORE_DATABASE_PASS,
+    database: process.env.CORE_DATABASE_NAME,
     autoLoadEntities: true,
     synchronize: process.env.CORE_DATABASE_SYNC === '1',
+    // Skip fallback values in production to make it easier to debug connection issues
+    ...(!process.env.NODE_ENV || process.env.NODE_ENV === 'development'
+      ? {
+          host: process.env.CORE_DATABASE_HOST || 'localhost',
+          username: process.env.CORE_DATABASE_USER || 'root',
+          password: process.env.CORE_DATABASE_PASS || '123456',
+          database: process.env.CORE_DATABASE_NAME || 'web_portfolio',
+        }
+      : {}),
   },
 
   system_name: process.env.CORE_SYSTEM_NAME || 'Web Portfolio',

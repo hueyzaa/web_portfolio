@@ -1,12 +1,12 @@
 export declare const envConfig: (() => {
     port: number;
     database: {
+        host: string | undefined;
+        username: string | undefined;
+        password: string | undefined;
+        database: string | undefined;
         type: string;
-        host: string;
         port: number;
-        username: string;
-        password: string;
-        database: string;
         autoLoadEntities: boolean;
         synchronize: boolean;
     };
@@ -18,12 +18,12 @@ export declare const envConfig: (() => {
 }) & import("@nestjs/config").ConfigFactoryKeyHost<{
     port: number;
     database: {
+        host: string | undefined;
+        username: string | undefined;
+        password: string | undefined;
+        database: string | undefined;
         type: string;
-        host: string;
         port: number;
-        username: string;
-        password: string;
-        database: string;
         autoLoadEntities: boolean;
         synchronize: boolean;
     };
