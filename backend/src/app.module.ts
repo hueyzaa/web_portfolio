@@ -25,6 +25,7 @@ import { SettingsModule } from './modules/settings/settings.module';
 import { MediaModule } from './modules/media/media.module';
 import { UsersModule } from './modules/users/users.module';
 import { Media } from './database/entities/Media.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -33,15 +34,10 @@ import { Media } from './database/entities/Media.entity';
       load: [envConfig],
       envFilePath: ['.env.development', '.env'],
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '123456',
-      database: 'web_portfolio',
-      autoLoadEntities: true,
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        configService.get('env.database')!,
     }),
     TypeOrmModule.forFeature([
       Project,
