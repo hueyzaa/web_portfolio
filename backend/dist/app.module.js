@@ -44,7 +44,7 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 load: [env_config_1.envConfig],
-                envFilePath: ['.env.development', '.env'],
+                envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 inject: [config_2.ConfigService],

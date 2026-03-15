@@ -32,7 +32,7 @@ import { ConfigService } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [envConfig],
-      envFilePath: ['.env.development', '.env'],
+      envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

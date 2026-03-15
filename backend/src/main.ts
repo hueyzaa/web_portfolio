@@ -1,12 +1,15 @@
 // Polyfill crypto for Node versions < 19 where it's not globally available
+/* eslint-disable @typescript-eslint/no-require-imports */
 if (!global.crypto) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    global.crypto = require('crypto').webcrypto || require('crypto');
+    global.crypto =
+      (require('crypto') as { webcrypto: Crypto }).webcrypto ||
+      (require('crypto') as unknown as Crypto);
   } catch (e) {
     console.error('Failed to polyfill crypto:', e);
   }
 }
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -19,14 +22,19 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = process.env.PORT || 9999;
+  const port = configService.get<number>('env.port') || 9999;
+  const corsOrigin = configService.get<string>('env.cors_origin');
 
-  app.enableCors();
+  app.enableCors({
+    origin: corsOrigin,
+    credentials: true,
+  });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  // Serve static files from the 'uploads' directory
-  app.useStaticAssets(join(process.cwd(), 'uploads'), {
-    prefix: '/uploads',
+  const uploadPath = configService.get<string>('env.upload_path') || 'uploads';
+  // Serve static files from the upload directory
+  app.useStaticAssets(join(process.cwd(), uploadPath), {
+    prefix: `/${uploadPath}`,
   });
 
   await app.listen(port || 9999, '0.0.0.0');

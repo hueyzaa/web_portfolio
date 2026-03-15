@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 if (!global.crypto) {
     try {
-        global.crypto = require('crypto').webcrypto || require('crypto');
+        global.crypto =
+            require('crypto').webcrypto ||
+                require('crypto');
     }
     catch (e) {
         console.error('Failed to polyfill crypto:', e);
@@ -16,11 +18,16 @@ const path_1 = require("path");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const configService = app.get(config_1.ConfigService);
-    const port = process.env.PORT || 9999;
-    app.enableCors();
+    const port = configService.get('env.port') || 9999;
+    const corsOrigin = configService.get('env.cors_origin');
+    app.enableCors({
+        origin: corsOrigin,
+        credentials: true,
+    });
     app.useGlobalPipes(new common_1.ValidationPipe({ transform: true }));
-    app.useStaticAssets((0, path_1.join)(process.cwd(), 'uploads'), {
-        prefix: '/uploads',
+    const uploadPath = configService.get('env.upload_path') || 'uploads';
+    app.useStaticAssets((0, path_1.join)(process.cwd(), uploadPath), {
+        prefix: `/${uploadPath}`,
     });
     await app.listen(port || 9999, '0.0.0.0');
     console.log(`Application is running on: http://localhost:${port || 9999}`);
