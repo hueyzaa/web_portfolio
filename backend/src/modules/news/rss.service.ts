@@ -52,17 +52,18 @@ export class RssService {
       thumbnail = mediaContent.$.url;
     }
 
-    // Clean description: remove HTML tags
-    const description = (item.contentSnippet || item.content || '')
-      .replace(/<[^>]*>?/gm, '')
-      .substring(0, 250);
+    // Clean description: remove HTML tags and handle missing values
+    const description =
+      (item.contentSnippet || item.content || '')
+        .replace(/<[^>]*>?/gm, '')
+        .substring(0, 250) || 'No description available';
 
     return {
-      title: item.title || 'No Title',
+      title: (item.title || 'No Title').trim(),
       description,
-      thumbnail,
+      thumbnail: thumbnail || '',
       url: item.link || '',
-      source,
+      source: source || 'Unknown Source',
       publishedAt: item.pubDate ? new Date(item.pubDate) : new Date(),
     };
   }

@@ -67,25 +67,33 @@ export class NewsService {
   }
 
   private async upsertNews(item: NormalizedNews): Promise<boolean> {
-    const existing = await this.newsRepository.findOne({
-      where: { url: item.url },
-    });
-    if (existing) return false;
+    try {
+      if (!item.url) return false;
 
-    const category = this.detectCategory(item.title + ' ' + item.description);
+      const category = this.detectCategory(item.title + ' ' + item.description);
 
-    const news = this.newsRepository.create({
-      title: item.title,
-      description: item.description,
-      thumbnail: item.thumbnail,
-      url: item.url,
-      source: item.source,
-      published_at: item.publishedAt,
-      category,
-    });
-
-    await this.newsRepository.save(news);
-    return true;
+      // Using TypeORM upsert for atomicity and handling potential race conditions/duplicates
+      // We skip synchronization of 'is_featured' and 'is_hidden' on update to preserve user modifications
+      await this.newsRepository.upsert(
+        {
+          title: item.title,
+          description: item.description,
+          thumbnail: item.thumbnail,
+          url: item.url,
+          source: item.source,
+          published_at: item.publishedAt,
+          category,
+        },
+        ['url'],
+      );
+      return true;
+    } catch (error) {
+      this.logger.error(
+        `Error in upsertNews for URL: ${item.url}`,
+        error instanceof Error ? error.stack : undefined,
+      );
+      return false;
+    }
   }
 
   private detectCategory(text: string): string {

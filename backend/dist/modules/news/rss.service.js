@@ -44,13 +44,13 @@ let RssService = RssService_1 = class RssService {
         }
         const description = (item.contentSnippet || item.content || '')
             .replace(/<[^>]*>?/gm, '')
-            .substring(0, 250);
+            .substring(0, 250) || 'No description available';
         return {
-            title: item.title || 'No Title',
+            title: (item.title || 'No Title').trim(),
             description,
-            thumbnail,
+            thumbnail: thumbnail || '',
             url: item.link || '',
-            source,
+            source: source || 'Unknown Source',
             publishedAt: item.pubDate ? new Date(item.pubDate) : new Date(),
         };
     }

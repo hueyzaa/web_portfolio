@@ -47,7 +47,7 @@ export const envConfig = registerAs('env', () => {
       process.env.MYSQLDATABASE ||
       'web_portfolio',
     autoLoadEntities: true,
-    synchronize: process.env.NODE_ENV === 'development',
+    synchronize: true, // Enable for development and production as requested to fix missing table
   };
 
   if (databaseUrl) {

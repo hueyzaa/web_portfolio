@@ -28,7 +28,7 @@ exports.envConfig = (0, config_1.registerAs)('env', () => {
             process.env.MYSQLDATABASE ||
             'web_portfolio',
         autoLoadEntities: true,
-        synchronize: process.env.NODE_ENV === 'development',
+        synchronize: true,
     };
     if (databaseUrl) {
         dbConfig.url = databaseUrl;
