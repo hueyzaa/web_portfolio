@@ -138,7 +138,13 @@ let NewsService = NewsService_1 = class NewsService {
         });
     }
     async findAllAdmin() {
-        return this.newsRepository.find({ order: { created_at: 'DESC' } });
+        try {
+            return await this.newsRepository.find({ order: { created_at: 'DESC' } });
+        }
+        catch (error) {
+            this.logger.error('Failed to fetch news for admin', error instanceof Error ? error.stack : undefined);
+            throw error;
+        }
     }
     async toggleFeature(id) {
         const news = await this.newsRepository.findOne({ where: { id } });

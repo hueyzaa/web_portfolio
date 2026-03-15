@@ -146,7 +146,15 @@ export class NewsService {
 
   // Admin methods
   async findAllAdmin() {
-    return this.newsRepository.find({ order: { created_at: 'DESC' } });
+    try {
+      return await this.newsRepository.find({ order: { created_at: 'DESC' } });
+    } catch (error) {
+      this.logger.error(
+        'Failed to fetch news for admin',
+        error instanceof Error ? error.stack : undefined,
+      );
+      throw error;
+    }
   }
 
   async toggleFeature(id: number) {
