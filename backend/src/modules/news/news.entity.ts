@@ -21,7 +21,7 @@ export class News {
   thumbnail: string;
 
   @Index({ unique: true })
-  @Column({ length: 1000 })
+  @Column({ length: 500 })
   url: string;
 
   @Column({ nullable: true })

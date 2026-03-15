@@ -19,7 +19,9 @@ let RssService = RssService_1 = class RssService {
     async fetchFeed(url, sourceName) {
         try {
             const feed = await this.parser.parseURL(url);
-            return feed.items.map((item) => this.normalize(item, sourceName));
+            return feed.items
+                .filter((item) => !!item.link)
+                .map((item) => this.normalize(item, sourceName));
         }
         catch (error) {
             this.logger.error(`Failed to fetch RSS from ${sourceName}: ${url}`, error);

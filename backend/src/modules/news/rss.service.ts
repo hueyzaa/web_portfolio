@@ -26,9 +26,9 @@ export class RssService {
   async fetchFeed(url: string, sourceName: string): Promise<NormalizedNews[]> {
     try {
       const feed = await this.parser.parseURL(url);
-      return (feed.items as RssItem[]).map((item) =>
-        this.normalize(item, sourceName),
-      );
+      return (feed.items as RssItem[])
+        .filter((item) => !!item.link)
+        .map((item) => this.normalize(item, sourceName));
     } catch (error) {
       this.logger.error(
         `Failed to fetch RSS from ${sourceName}: ${url}`,

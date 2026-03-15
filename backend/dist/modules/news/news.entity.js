@@ -43,7 +43,7 @@ __decorate([
 ], News.prototype, "thumbnail", void 0);
 __decorate([
     (0, typeorm_1.Index)({ unique: true }),
-    (0, typeorm_1.Column)({ length: 1000 }),
+    (0, typeorm_1.Column)({ length: 500 }),
     __metadata("design:type", String)
 ], News.prototype, "url", void 0);
 __decorate([
