@@ -36,7 +36,7 @@ const Img = styled.div`
   aspect-ratio: 4/5;
   background: #1e293b;
   border-radius: 12px;
-  background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop');
+  background-image: url('');
   background-size: cover;
   background-position: center;
 `;

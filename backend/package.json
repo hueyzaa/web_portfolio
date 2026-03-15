@@ -27,6 +27,7 @@
     "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.1.16",
+    "@nestjs/schedule": "^6.1.1",
     "@nestjs/serve-static": "^5.0.4",
     "@nestjs/typeorm": "^11.0.0",
     "@types/bcrypt": "^6.0.0",
@@ -40,6 +41,7 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
+    "rss-parser": "^3.13.0",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.28"
   },

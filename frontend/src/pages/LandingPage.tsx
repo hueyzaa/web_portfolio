@@ -6,6 +6,7 @@ import AboutSection from '../components/AboutSection';
 import PortfolioSection from '../components/PortfolioSection';
 import SkillsSection from '../components/SkillsSection';
 import ServicesSection from '../components/sections/ServicesSection';
+import LatestNewsSection from '../components/LatestNewsSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/layout/Footer';
 
@@ -34,6 +35,7 @@ const LandingPage = () => {
       <PortfolioSection />
       <SkillsSection />
       <ServicesSection />
+      <LatestNewsSection />
       <ContactSection />
       <Footer />
     </div>

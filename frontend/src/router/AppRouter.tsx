@@ -14,6 +14,7 @@ import MainSettings from '../pages/Admin/MainSettings';
 import FooterSettings from '../pages/Admin/FooterSettings';
 import ContactSettings from '../pages/Admin/ContactSettings';
 import AccountManager from '../pages/Admin/AccountManager';
+import NewsManager from '../pages/Admin/NewsManager';
 
 const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ const AppRouter = () => {
       <Route path="/skills" element={<LandingPage />} />
       <Route path="/services" element={<LandingPage />} />
       <Route path="/contact" element={<LandingPage />} />
+      <Route path="/blog" element={<LandingPage />} />
       <Route path="/project/:id" element={<ProjectDetail />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       
@@ -36,6 +38,7 @@ const AppRouter = () => {
         <Route path="settings/footer" element={<FooterSettings />} />
         <Route path="settings/contact" element={<ContactSettings />} />
         <Route path="projects" element={<ProjectsManager />} />
+        <Route path="news" element={<NewsManager />} />
         <Route path="categories" element={<CategoriesManager />} />
         <Route path="about" element={<AboutSettings />} />
         <Route path="skills" element={<SkillsManager />} />

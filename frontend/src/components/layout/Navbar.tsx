@@ -209,6 +209,7 @@ const Navbar: React.FC = () => {
             <Link to="/about">Giới thiệu</Link>
             <Link to="/skills">Kỹ năng</Link>
             <Link to="/services">Dịch vụ</Link>
+            <Link to="/blog">Blog</Link>
             <ContactBtn to="/contact">Liên hệ với tôi</ContactBtn>
           </NavLinks>
 
@@ -243,6 +244,7 @@ const Navbar: React.FC = () => {
                 <Link to="/about" onClick={toggleMenu}>Giới thiệu</Link>
                 <Link to="/skills" onClick={toggleMenu}>Kỹ năng</Link>
                 <Link to="/services" onClick={toggleMenu}>Dịch vụ</Link>
+                <Link to="/blog" onClick={toggleMenu}>Blog</Link>
                 <div style={{ marginTop: '1rem' }}>
                   <ContactBtn to="/contact" onClick={toggleMenu} style={{ display: 'inline-block' }}>
                     Liên hệ với tôi

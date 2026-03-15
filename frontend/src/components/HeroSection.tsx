@@ -18,7 +18,7 @@ const BackgroundImage = styled.div<{ $imageUrl?: string }>`
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url(${props => props.$imageUrl || 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=1974'});
+  background-image: url(${props => props.$imageUrl || ''});
   background-size: cover;
   background-position: center;
   

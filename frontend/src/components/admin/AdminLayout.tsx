@@ -12,6 +12,8 @@ import {
   MailOutlined,
   TagsOutlined,
   UserOutlined,
+  ReadOutlined,
+  GlobalOutlined,
 } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
@@ -70,6 +72,9 @@ const AdminLayout = () => {
           </Menu.SubMenu>
           <Menu.Item key="/admin/projects" icon={<ProjectOutlined />}>
             <Link to="/admin/projects">Dự án</Link>
+          </Menu.Item>
+          <Menu.Item key="/admin/news" icon={<GlobalOutlined />}>
+            <Link to="/admin/news">News Aggregator</Link>
           </Menu.Item>
           <Menu.Item key="/admin/contact" icon={<MailOutlined />}>
             <Link to="/admin/contact">Liên hệ</Link>

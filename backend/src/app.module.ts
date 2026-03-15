@@ -24,7 +24,13 @@ import { UsersModule } from './modules/users/users.module';
 import { Media } from './database/entities/Media.entity';
 import { ConfigService } from '@nestjs/config';
 
+import { Post as PostEntity } from './database/entities/Post.entity';
+import { PostsModule } from './modules/posts/posts.module';
+import { ScheduleModule } from '@nestjs/schedule';
 import { PublicModule } from './modules/public/public.module';
+
+import { News as NewsEntity } from './modules/news/news.entity';
+import { NewsModule } from './modules/news/news.module';
 
 @Module({
   imports: [
@@ -33,6 +39,7 @@ import { PublicModule } from './modules/public/public.module';
       load: [envConfig],
       envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
     }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
@@ -48,6 +55,8 @@ import { PublicModule } from './modules/public/public.module';
       ServiceEntity,
       Setting,
       Media,
+      PostEntity,
+      NewsEntity,
     ]),
     AuthModule,
     UploadModule,
@@ -61,6 +70,8 @@ import { PublicModule } from './modules/public/public.module';
     SkillsModule,
     ContactModule,
     PublicModule,
+    PostsModule,
+    NewsModule,
   ],
 })
 export class AppModule {}

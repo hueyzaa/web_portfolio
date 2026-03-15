@@ -32,7 +32,12 @@ const media_module_1 = require("./modules/media/media.module");
 const users_module_1 = require("./modules/users/users.module");
 const Media_entity_1 = require("./database/entities/Media.entity");
 const config_2 = require("@nestjs/config");
+const Post_entity_1 = require("./database/entities/Post.entity");
+const posts_module_1 = require("./modules/posts/posts.module");
+const schedule_1 = require("@nestjs/schedule");
 const public_module_1 = require("./modules/public/public.module");
+const news_entity_1 = require("./modules/news/news.entity");
+const news_module_1 = require("./modules/news/news.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,6 +49,7 @@ exports.AppModule = AppModule = __decorate([
                 load: [env_config_1.envConfig],
                 envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
             }),
+            schedule_1.ScheduleModule.forRoot(),
             typeorm_1.TypeOrmModule.forRootAsync({
                 inject: [config_2.ConfigService],
                 useFactory: (configService) => configService.get('env.database'),
@@ -58,6 +64,8 @@ exports.AppModule = AppModule = __decorate([
                 Service_entity_1.Service,
                 Setting_entity_1.Setting,
                 Media_entity_1.Media,
+                Post_entity_1.Post,
+                news_entity_1.News,
             ]),
             auth_module_1.AuthModule,
             upload_module_1.UploadModule,
@@ -71,6 +79,8 @@ exports.AppModule = AppModule = __decorate([
             skills_module_1.SkillsModule,
             contact_module_1.ContactModule,
             public_module_1.PublicModule,
+            posts_module_1.PostsModule,
+            news_module_1.NewsModule,
         ],
     })
 ], AppModule);
