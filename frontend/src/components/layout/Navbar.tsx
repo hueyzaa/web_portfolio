@@ -165,7 +165,7 @@ const Navbar: React.FC = () => {
   React.useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await apiClient.get("/settings");
+        const response = await apiClient.get("/public/settings");
         setSettings(response.data);
       } catch (error) {
         console.error("Failed to fetch settings", error);

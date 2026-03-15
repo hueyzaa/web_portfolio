@@ -20,6 +20,7 @@ exports.SkillsModule = SkillsModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([Skill_entity_1.Skill])],
         controllers: [skills_controller_1.SkillsController],
         providers: [skills_service_1.SkillsService],
+        exports: [skills_service_1.SkillsService],
     })
 ], SkillsModule);
 //# sourceMappingURL=skills.module.js.map

@@ -83,7 +83,7 @@ const ProjectDetail = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     apiClient
-      .get(`/projects/${id}`)
+      .get(`/public/projects/${id}`)
       .then((res) => setProject(res.data))
       .catch((err) => console.error(err));
   }, [id]);

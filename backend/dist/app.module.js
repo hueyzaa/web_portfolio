@@ -32,6 +32,7 @@ const media_module_1 = require("./modules/media/media.module");
 const users_module_1 = require("./modules/users/users.module");
 const Media_entity_1 = require("./database/entities/Media.entity");
 const config_2 = require("@nestjs/config");
+const public_module_1 = require("./modules/public/public.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -69,6 +70,7 @@ exports.AppModule = AppModule = __decorate([
             projects_module_1.ProjectsModule,
             skills_module_1.SkillsModule,
             contact_module_1.ContactModule,
+            public_module_1.PublicModule,
         ],
     })
 ], AppModule);

@@ -28,10 +28,10 @@ export class UploadController {
     if (!file) {
       throw new HttpException('File upload failed', HttpStatus.BAD_REQUEST);
     }
-    
+
     // Save to database as BLOB
     const media = await this.mediaService.create(file);
-    
+
     return {
       url: `/media/${media.id}`,
       filename: media.filename,

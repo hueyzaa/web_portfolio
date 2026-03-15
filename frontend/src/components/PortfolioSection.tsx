@@ -80,8 +80,8 @@ const PortfolioSection = () => {
     const fetchData = async () => {
       try {
         const [projectsRes, categoriesRes] = await Promise.all([
-          apiClient.get("/projects"),
-          apiClient.get("/categories")
+          apiClient.get("/public/projects"),
+          apiClient.get("/public/categories")
         ]);
         setProjects(projectsRes.data);
         setCategories(categoriesRes.data);

@@ -20,6 +20,7 @@ exports.ContactModule = ContactModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([ContactMessage_entity_1.ContactMessage])],
         controllers: [contact_controller_1.ContactController],
         providers: [contact_service_1.ContactService],
+        exports: [contact_service_1.ContactService],
     })
 ], ContactModule);
 //# sourceMappingURL=contact.module.js.map

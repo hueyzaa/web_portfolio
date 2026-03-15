@@ -110,7 +110,7 @@ const AboutSection = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await apiClient.get('/profile');
+        const response = await apiClient.get('/public/profile');
         setProfile(response.data);
       } catch (error) {
         console.error('Failed to fetch profile', error);

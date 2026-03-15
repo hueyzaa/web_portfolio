@@ -171,11 +171,11 @@ const SkillsSection = () => {
   const [services, setServices] = useState<any[]>([]);
 
   useEffect(() => {
-    apiClient.get('/skills')
+    apiClient.get('/public/skills')
       .then(res => setSkills(res.data))
       .catch(err => console.error(err));
 
-    apiClient.get('/services')
+    apiClient.get('/public/services')
       .then(res => setServices(res.data))
       .catch(err => console.error(err));
   }, []);

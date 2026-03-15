@@ -24,6 +24,8 @@ import { UsersModule } from './modules/users/users.module';
 import { Media } from './database/entities/Media.entity';
 import { ConfigService } from '@nestjs/config';
 
+import { PublicModule } from './modules/public/public.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -58,6 +60,7 @@ import { ConfigService } from '@nestjs/config';
     ProjectsModule,
     SkillsModule,
     ContactModule,
+    PublicModule,
   ],
 })
 export class AppModule {}

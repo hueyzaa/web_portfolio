@@ -218,7 +218,7 @@ const ContactSection = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await apiClient.get("/settings");
+        const response = await apiClient.get("/public/settings");
         setSettings(response.data);
       } catch (err) {
         console.error("Failed to fetch settings", err);
@@ -230,7 +230,7 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await apiClient.post("/contact", formData);
+      await apiClient.post("/public/contact", formData);
       message.success("Message sent successfully!");
       setFormData({ name: "", email: "", subject: "Freelance Inquiry", message: "" });
     } catch (err) {
