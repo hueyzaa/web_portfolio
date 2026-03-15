@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.envConfig = void 0;
 const config_1 = require("@nestjs/config");
 exports.envConfig = (0, config_1.registerAs)('env', () => {
-    const databaseUrl = process.env.DATABASE_URL ||
-        process.env.MYSQL_URL ||
-        process.env.MYSQL_PUBLIC_URL;
+    const databaseUrl = process.env.MYSQL_PUBLIC_URL ||
+        process.env.DATABASE_URL ||
+        process.env.MYSQL_URL;
     const dbConfig = {
         type: 'mysql',
         host: process.env.DB_HOST ||
@@ -33,6 +33,17 @@ exports.envConfig = (0, config_1.registerAs)('env', () => {
     if (databaseUrl) {
         dbConfig.url = databaseUrl;
     }
+    console.log('--- Database Config Debug ---');
+    if (dbConfig.url) {
+        console.log('Using Database URL:', dbConfig.url.replace(/:[^:@/]+@/, ':***@'));
+    }
+    else {
+        console.log('Host:', dbConfig.host);
+        console.log('Port:', dbConfig.port);
+        console.log('User:', dbConfig.username);
+        console.log('Database:', dbConfig.database);
+    }
+    console.log('-----------------------------');
     return {
         node_env: process.env.NODE_ENV || 'development',
         port: Number(process.env.PORT) || 9999,

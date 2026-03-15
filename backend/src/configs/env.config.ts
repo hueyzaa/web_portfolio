@@ -14,9 +14,9 @@ interface DatabaseConfig {
 
 export const envConfig = registerAs('env', () => {
   const databaseUrl =
+    process.env.MYSQL_PUBLIC_URL ||
     process.env.DATABASE_URL ||
-    process.env.MYSQL_URL ||
-    process.env.MYSQL_PUBLIC_URL;
+    process.env.MYSQL_URL;
 
   const dbConfig: DatabaseConfig = {
     type: 'mysql',
@@ -53,6 +53,20 @@ export const envConfig = registerAs('env', () => {
   if (databaseUrl) {
     dbConfig.url = databaseUrl;
   }
+
+  console.log('--- Database Config Debug ---');
+  if (dbConfig.url) {
+    console.log(
+      'Using Database URL:',
+      dbConfig.url.replace(/:[^:@/]+@/, ':***@'),
+    );
+  } else {
+    console.log('Host:', dbConfig.host);
+    console.log('Port:', dbConfig.port);
+    console.log('User:', dbConfig.username);
+    console.log('Database:', dbConfig.database);
+  }
+  console.log('-----------------------------');
 
   return {
     node_env: process.env.NODE_ENV || 'development',
