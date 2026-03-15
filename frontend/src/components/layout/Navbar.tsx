@@ -175,8 +175,10 @@ const Navbar: React.FC = () => {
   }, []);
 
   const siteName = settings.site_name || "Phan Gia Mẫn";
-  const logoUrl = settings.site_logo 
-    ? (settings.site_logo.startsWith('http') ? settings.site_logo : `${API_URL}${settings.site_logo}`)
+  const logoUrl = settings.site_logo
+    ? settings.site_logo.startsWith("http")
+      ? settings.site_logo
+      : `${API_URL}${settings.site_logo}`
     : null;
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -188,7 +190,11 @@ const Navbar: React.FC = () => {
           <Link to="/">
             <LogoWrapper>
               {logoUrl ? (
-                <img src={logoUrl} alt={siteName} style={{ height: '2.5rem', objectFit: 'contain' }} />
+                <img
+                  src={logoUrl}
+                  alt={siteName}
+                  style={{ height: "2.5rem", objectFit: "contain" }}
+                />
               ) : (
                 <svg
                   fill="none"
@@ -222,31 +228,45 @@ const Navbar: React.FC = () => {
       <AnimatePresence>
         {isOpen && (
           <>
-            <Overlay 
+            <Overlay
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={toggleMenu}
             />
             <MobileDrawer
-              initial={{ x: '100%' }}
+              initial={{ x: "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
             >
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <MobileMenuBtn onClick={toggleMenu}>
                   <CloseOutlined />
                 </MobileMenuBtn>
               </div>
               <DrawerLinks>
-                <Link to="/portfolio" onClick={toggleMenu}>Dự án</Link>
-                <Link to="/about" onClick={toggleMenu}>Giới thiệu</Link>
-                <Link to="/skills" onClick={toggleMenu}>Kỹ năng</Link>
-                <Link to="/services" onClick={toggleMenu}>Dịch vụ</Link>
-                <Link to="/blog" onClick={toggleMenu}>Blog</Link>
-                <div style={{ marginTop: '1rem' }}>
-                  <ContactBtn to="/contact" onClick={toggleMenu} style={{ display: 'inline-block' }}>
+                <Link to="/portfolio" onClick={toggleMenu}>
+                  Dự án
+                </Link>
+                <Link to="/about" onClick={toggleMenu}>
+                  Giới thiệu
+                </Link>
+                <Link to="/skills" onClick={toggleMenu}>
+                  Kỹ năng
+                </Link>
+                <Link to="/services" onClick={toggleMenu}>
+                  Dịch vụ
+                </Link>
+                <Link to="/blog" onClick={toggleMenu}>
+                  Blog
+                </Link>
+                <div style={{ marginTop: "1rem" }}>
+                  <ContactBtn
+                    to="/contact"
+                    onClick={toggleMenu}
+                    style={{ display: "inline-block" }}
+                  >
                     Liên hệ với tôi
                   </ContactBtn>
                 </div>

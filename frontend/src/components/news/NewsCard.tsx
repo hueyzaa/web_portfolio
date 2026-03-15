@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import React from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const Card = styled(motion.div)`
   position: relative;
@@ -17,7 +17,7 @@ const Card = styled(motion.div)`
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     padding: 1px;
@@ -27,8 +27,12 @@ const Card = styled(motion.div)`
       rgba(255, 255, 255, 0.1),
       rgba(255, 255, 255, 0.02)
     );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -60,7 +64,7 @@ const ImageContainer = styled.div`
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -165,13 +169,13 @@ interface NewsCardProps {
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({ news, index }) => {
-  const publishedDate = news.published_at 
-    ? new Date(news.published_at).toLocaleDateString('vi-VN', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
+  const publishedDate = news.published_at
+    ? new Date(news.published_at).toLocaleDateString("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
       })
-    : 'Chưa rõ ngày';
+    : "Chưa rõ ngày";
 
   return (
     <Card
@@ -182,26 +186,33 @@ const NewsCard: React.FC<NewsCardProps> = ({ news, index }) => {
     >
       <ImageContainer>
         <SourceBadge>{news.source}</SourceBadge>
-        <img 
-          src={news.thumbnail || 'https://via.placeholder.com/600x400?text=PGM+News'} 
-          alt={news.title} 
+        <img
+          src={
+            news.thumbnail ||
+            "https://via.placeholder.com/600x400?text=PGM+News"
+          }
+          alt={news.title}
           loading="lazy"
         />
       </ImageContainer>
-      
+
       <ContentPanel>
         <HeaderMeta>
-          <CategoryTag>{news.category || 'Chung'}</CategoryTag>
+          <CategoryTag>{news.category || "Chung"}</CategoryTag>
           <span style={{ opacity: 0.3 }}>|</span>
           <span>{publishedDate}</span>
         </HeaderMeta>
-        
+
         <TitleText>{news.title}</TitleText>
         <SummaryText>{news.description}</SummaryText>
-        
+
         <ActionFooter>
-          <ExternalLink href={news.url} target="_blank" rel="noopener noreferrer">
-            Xem chi tiết 
+          <ExternalLink
+            href={news.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Xem chi tiết
             <motion.span
               animate={{ x: [0, 3, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
@@ -216,4 +227,3 @@ const NewsCard: React.FC<NewsCardProps> = ({ news, index }) => {
 };
 
 export default NewsCard;
-

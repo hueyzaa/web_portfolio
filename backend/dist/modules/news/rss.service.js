@@ -38,7 +38,7 @@ let RssService = RssService_1 = class RssService {
                 thumbnail = imgMatch[1];
         }
         else if (mediaContent?.$?.url) {
-            thumbnail = String(mediaContent.$.url);
+            thumbnail = mediaContent.$.url;
         }
         const description = (item.contentSnippet || item.content || '')
             .replace(/<[^>]*>?/gm, '')

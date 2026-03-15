@@ -33,20 +33,44 @@ export class NewsService {
   }
 
   async refreshNews() {
+    this.logger.log('Refreshing news from sources...');
+    let totalUpserted = 0;
+
     for (const source of this.SOURCES) {
-      const items = await this.rssService.fetchFeed(source.url, source.name);
-      for (const item of items) {
-        await this.upsertNews(item);
+      try {
+        const items = await this.rssService.fetchFeed(source.url, source.name);
+        this.logger.log(`Fetched ${items.length} items from ${source.name}`);
+
+        for (const item of items) {
+          try {
+            const upserted = await this.upsertNews(item);
+            if (upserted) totalUpserted++;
+          } catch (error) {
+            this.logger.error(
+              `Failed to upsert news item: ${item.url}`,
+              error instanceof Error ? error.stack : undefined,
+            );
+          }
+        }
+      } catch (error) {
+        this.logger.error(
+          `Failed to refresh news from source: ${source.name}`,
+          error instanceof Error ? error.stack : undefined,
+        );
       }
     }
-    return { message: 'News refreshed successfully' };
+
+    this.logger.log(
+      `Refresh cycle complete. Total new items: ${totalUpserted}`,
+    );
+    return { message: 'News refreshed successfully', newItems: totalUpserted };
   }
 
-  private async upsertNews(item: NormalizedNews) {
+  private async upsertNews(item: NormalizedNews): Promise<boolean> {
     const existing = await this.newsRepository.findOne({
       where: { url: item.url },
     });
-    if (existing) return;
+    if (existing) return false;
 
     const category = this.detectCategory(item.title + ' ' + item.description);
 
@@ -61,6 +85,7 @@ export class NewsService {
     });
 
     await this.newsRepository.save(news);
+    return true;
   }
 
   private detectCategory(text: string): string {

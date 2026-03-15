@@ -10,6 +10,7 @@ export declare class NewsService {
     handleCron(): Promise<void>;
     refreshNews(): Promise<{
         message: string;
+        newItems: number;
     }>;
     private upsertNews;
     private detectCategory;

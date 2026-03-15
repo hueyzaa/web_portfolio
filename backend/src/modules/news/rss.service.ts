@@ -10,6 +10,14 @@ export interface NormalizedNews {
   publishedAt: Date;
 }
 
+interface RssItem extends RSSParser.Item {
+  'media:content'?: {
+    $?: {
+      url?: string;
+    };
+  };
+}
+
 @Injectable()
 export class RssService {
   private readonly logger = new Logger(RssService.name);
@@ -18,7 +26,9 @@ export class RssService {
   async fetchFeed(url: string, sourceName: string): Promise<NormalizedNews[]> {
     try {
       const feed = await this.parser.parseURL(url);
-      return feed.items.map((item) => this.normalize(item, sourceName));
+      return (feed.items as RssItem[]).map((item) =>
+        this.normalize(item, sourceName),
+      );
     } catch (error) {
       this.logger.error(
         `Failed to fetch RSS from ${sourceName}: ${url}`,
@@ -28,10 +38,10 @@ export class RssService {
     }
   }
 
-  private normalize(item: RSSParser.Item, source: string): NormalizedNews {
+  private normalize(item: RssItem, source: string): NormalizedNews {
     let thumbnail = '';
 
-    const mediaContent = (item as any)['media:content'];
+    const mediaContent = item['media:content'];
     if (item.enclosure?.url) {
       thumbnail = item.enclosure.url;
     } else if (item.content) {
@@ -39,7 +49,7 @@ export class RssService {
       const imgMatch = item.content.match(/<img[^>]+src="([^">]+)"/);
       if (imgMatch) thumbnail = imgMatch[1];
     } else if (mediaContent?.$?.url) {
-      thumbnail = String(mediaContent.$.url);
+      thumbnail = mediaContent.$.url;
     }
 
     // Clean description: remove HTML tags

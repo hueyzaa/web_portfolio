@@ -7,6 +7,7 @@ export declare class NewsController {
     findAllAdmin(): Promise<import("./news.entity").News[]>;
     refresh(): Promise<{
         message: string;
+        newItems: number;
     }>;
     toggleFeature(id: string): Promise<import("./news.entity").News | null>;
     toggleHide(id: string): Promise<import("./news.entity").News | null>;
