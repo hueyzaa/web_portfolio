@@ -17,12 +17,9 @@ const User_entity_1 = require("./database/entities/User.entity");
 const Profile_entity_1 = require("./database/entities/Profile.entity");
 const Service_entity_1 = require("./database/entities/Service.entity");
 const Setting_entity_1 = require("./database/entities/Setting.entity");
-const projects_controller_1 = require("./modules/projects/projects.controller");
-const projects_service_1 = require("./modules/projects/projects.service");
-const skills_controller_1 = require("./modules/skills/skills.controller");
-const skills_service_1 = require("./modules/skills/skills.service");
-const contact_controller_1 = require("./modules/contact/contact.controller");
-const contact_service_1 = require("./modules/contact/contact.service");
+const projects_module_1 = require("./modules/projects/projects.module");
+const skills_module_1 = require("./modules/skills/skills.module");
+const contact_module_1 = require("./modules/contact/contact.module");
 const config_1 = require("@nestjs/config");
 const env_config_1 = require("./configs/env.config");
 const auth_module_1 = require("./modules/auth/auth.module");
@@ -69,9 +66,10 @@ exports.AppModule = AppModule = __decorate([
             settings_module_1.SettingsModule,
             media_module_1.MediaModule,
             users_module_1.UsersModule,
+            projects_module_1.ProjectsModule,
+            skills_module_1.SkillsModule,
+            contact_module_1.ContactModule,
         ],
-        controllers: [projects_controller_1.ProjectsController, skills_controller_1.SkillsController, contact_controller_1.ContactController],
-        providers: [projects_service_1.ProjectsService, skills_service_1.SkillsService, contact_service_1.ContactService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

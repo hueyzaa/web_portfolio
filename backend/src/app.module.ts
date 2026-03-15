@@ -8,12 +8,9 @@ import { User } from './database/entities/User.entity';
 import { Profile as ProfileEntity } from './database/entities/Profile.entity';
 import { Service as ServiceEntity } from './database/entities/Service.entity';
 import { Setting } from './database/entities/Setting.entity';
-import { ProjectsController } from './modules/projects/projects.controller';
-import { ProjectsService } from './modules/projects/projects.service';
-import { SkillsController } from './modules/skills/skills.controller';
-import { SkillsService } from './modules/skills/skills.service';
-import { ContactController } from './modules/contact/contact.controller';
-import { ContactService } from './modules/contact/contact.service';
+import { ProjectsModule } from './modules/projects/projects.module';
+import { SkillsModule } from './modules/skills/skills.module';
+import { ContactModule } from './modules/contact/contact.module';
 import { ConfigModule } from '@nestjs/config';
 import { envConfig } from './configs/env.config';
 import { AuthModule } from './modules/auth/auth.module';
@@ -58,8 +55,9 @@ import { ConfigService } from '@nestjs/config';
     SettingsModule,
     MediaModule,
     UsersModule,
+    ProjectsModule,
+    SkillsModule,
+    ContactModule,
   ],
-  controllers: [ProjectsController, SkillsController, ContactController],
-  providers: [ProjectsService, SkillsService, ContactService],
 })
 export class AppModule {}

@@ -1,5 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import apiClient, { API_URL } from "../../api/apiClient";
+import { AnimatePresence, motion } from "framer-motion";
+import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 
 const Nav = styled.nav`
   position: fixed;
@@ -64,7 +68,7 @@ const NavLinks = styled.div`
   }
 `;
 
-const ContactBtn = styled.a`
+const ContactBtn = styled(Link)`
   padding: 0.625rem 1.25rem;
   border-radius: 0.5rem;
   background: var(--primary-color);
@@ -79,12 +83,9 @@ const ContactBtn = styled.a`
     background: #0b4ecd;
     box-shadow: 0 4px 20px rgba(13, 89, 242, 0.5);
     transform: translateY(-1px);
+    color: white;
   }
 `;
-
-import apiClient, { API_URL } from "../../api/apiClient";
-import { AnimatePresence, motion } from "framer-motion";
-import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 
 const MobileMenuBtn = styled.button`
   display: flex;
@@ -184,29 +185,31 @@ const Navbar: React.FC = () => {
     <>
       <Nav>
         <Container>
-          <LogoWrapper>
-            {logoUrl ? (
-              <img src={logoUrl} alt={siteName} style={{ height: '2.5rem', objectFit: 'contain' }} />
-            ) : (
-              <svg
-                fill="none"
-                viewBox="0 0 48 48"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C26.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            )}
-            <span>{siteName}</span>
-          </LogoWrapper>
+          <Link to="/">
+            <LogoWrapper>
+              {logoUrl ? (
+                <img src={logoUrl} alt={siteName} style={{ height: '2.5rem', objectFit: 'contain' }} />
+              ) : (
+                <svg
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C26.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              )}
+              <span>{siteName}</span>
+            </LogoWrapper>
+          </Link>
           <NavLinks>
-            <a href="#portfolio">Dự án</a>
-            <a href="#about">Giới thiệu</a>
-            <a href="#skills">Kỹ năng</a>
-            <a href="#services">Dịch vụ</a>
-            <ContactBtn href="#contact">Liên hệ với tôi</ContactBtn>
+            <Link to="/portfolio">Dự án</Link>
+            <Link to="/about">Giới thiệu</Link>
+            <Link to="/skills">Kỹ năng</Link>
+            <Link to="/services">Dịch vụ</Link>
+            <ContactBtn to="/contact">Liên hệ với tôi</ContactBtn>
           </NavLinks>
 
           <MobileMenuBtn onClick={toggleMenu}>
@@ -236,12 +239,12 @@ const Navbar: React.FC = () => {
                 </MobileMenuBtn>
               </div>
               <DrawerLinks>
-                <a href="#portfolio" onClick={toggleMenu}>Dự án</a>
-                <a href="#about" onClick={toggleMenu}>Giới thiệu</a>
-                <a href="#skills" onClick={toggleMenu}>Kỹ năng</a>
-                <a href="#services" onClick={toggleMenu}>Dịch vụ</a>
+                <Link to="/portfolio" onClick={toggleMenu}>Dự án</Link>
+                <Link to="/about" onClick={toggleMenu}>Giới thiệu</Link>
+                <Link to="/skills" onClick={toggleMenu}>Kỹ năng</Link>
+                <Link to="/services" onClick={toggleMenu}>Dịch vụ</Link>
                 <div style={{ marginTop: '1rem' }}>
-                  <ContactBtn href="#contact" onClick={toggleMenu} style={{ display: 'inline-block' }}>
+                  <ContactBtn to="/contact" onClick={toggleMenu} style={{ display: 'inline-block' }}>
                     Liên hệ với tôi
                   </ContactBtn>
                 </div>
