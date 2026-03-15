@@ -18,7 +18,7 @@ const path_1 = require("path");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const configService = app.get(config_1.ConfigService);
-    const port = configService.get('env.port') || 9999;
+    const port = process.env.PORT || 9999;
     const corsOrigin = configService.get('env.cors_origin');
     app.enableCors({
         origin: corsOrigin,

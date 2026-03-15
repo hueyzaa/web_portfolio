@@ -22,7 +22,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('env.port') || 9999;
+  const port = process.env.PORT || 9999;
   const corsOrigin = configService.get<string>('env.cors_origin');
 
   app.enableCors({
