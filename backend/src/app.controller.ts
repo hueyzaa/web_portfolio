@@ -12,9 +12,11 @@ export class AppController {
 
   @Get('health')
   checkHealth() {
+    console.log('Health endpoint hit');
     return {
       status: 'ok',
       uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
     };
   }
 }

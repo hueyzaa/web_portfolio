@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Project } from './database/entities/Project.entity';
 import { Skill } from './database/entities/Skill.entity';
@@ -73,5 +75,7 @@ import { NewsModule } from './modules/news/news.module';
     PostsModule,
     NewsModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
