@@ -169,15 +169,20 @@ const IconWrapper = styled.div`
 const SkillsSection = () => {
   const [skills, setSkills] = useState<any[]>([]);
   const [services, setServices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiClient.get('/public/skills')
-      .then(res => setSkills(res.data))
-      .catch(err => console.error(err));
-
-    apiClient.get('/public/services')
-      .then(res => setServices(res.data))
-      .catch(err => console.error(err));
+    Promise.all([
+      apiClient.get('/public/skills'),
+      apiClient.get('/public/services')
+    ]).then(([skillsRes, servicesRes]) => {
+      setSkills(skillsRes.data);
+      setServices(servicesRes.data);
+    }).catch(err => {
+      console.error(err);
+    }).finally(() => {
+      setLoading(false);
+    });
   }, []);
 
   const gridServices = services.filter(s => !s.isProfessional);
@@ -195,28 +200,40 @@ const SkillsSection = () => {
             <Label>Kỹ Năng</Label>
             <Title>Kỹ năng chuyên môn</Title>
             <SkillsList>
-              {skills.map((skill) => (
-                <SkillItem key={skill.id}>
-                  <SkillInfo>
-                    <span>{skill.name}</span>
-                    <span style={{ color: 'var(--primary-color)' }}>{skill.level}%</span>
-                  </SkillInfo>
-                  <ProgressBar>
-                    <Progress width={skill.level} />
-                  </ProgressBar>
-                </SkillItem>
-              ))}
+              {loading ? (
+                Array(4).fill(0).map((_, i) => (
+                  <div key={i} className="animate-pulse h-12 bg-slate-800/50 rounded-lg w-full"></div>
+                ))
+              ) : (
+                skills.map((skill) => (
+                  <SkillItem key={skill.id}>
+                    <SkillInfo>
+                      <span>{skill.name}</span>
+                      <span style={{ color: 'var(--primary-color)' }}>{skill.level}%</span>
+                    </SkillInfo>
+                    <ProgressBar>
+                      <Progress width={skill.level} />
+                    </ProgressBar>
+                  </SkillItem>
+                ))
+              )}
             </SkillsList>
           </motion.div>
         </Content>
         <ServicesGrid>
-          {gridServices.map(service => (
-            <ServiceCard key={service.id}>
-              <span className="material-symbols-outlined">{service.icon}</span>
-              <ServiceTitle>{service.title}</ServiceTitle>
-              <ServiceDesc>{service.description}</ServiceDesc>
-            </ServiceCard>
-          ))}
+          {loading ? (
+            Array(4).fill(0).map((_, i) => (
+              <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-40 w-full border border-slate-700"></div>
+            ))
+          ) : (
+            gridServices.map(service => (
+              <ServiceCard key={service.id}>
+                <span className="material-symbols-outlined">{service.icon}</span>
+                <ServiceTitle>{service.title}</ServiceTitle>
+                <ServiceDesc>{service.description}</ServiceDesc>
+              </ServiceCard>
+            ))
+          )}
         </ServicesGrid>
       </Grid>
 
@@ -224,17 +241,23 @@ const SkillsSection = () => {
         <Label>DỊCH VỤ</Label>
         <Title style={{ marginTop: '0.5rem' }}>Dịch vụ Chuyên nghiệp</Title>
         <ServicesItems>
-          {professionalServices.map(service => (
-            <ServiceItemLarge key={service.id}>
-              <IconWrapper>
-                <span className="material-symbols-outlined">{service.icon}</span>
-              </IconWrapper>
-              <ServiceTitle style={{ fontSize: '1.5rem' }}>{service.title}</ServiceTitle>
-              <ServiceDesc style={{ fontSize: '1.125rem', marginTop: '1rem' }}>
-                {service.description}
-              </ServiceDesc>
-            </ServiceItemLarge>
-          ))}
+          {loading ? (
+            Array(3).fill(0).map((_, i) => (
+              <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-64 w-full border border-slate-700"></div>
+            ))
+          ) : (
+            professionalServices.map(service => (
+              <ServiceItemLarge key={service.id}>
+                <IconWrapper>
+                  <span className="material-symbols-outlined">{service.icon}</span>
+                </IconWrapper>
+                <ServiceTitle style={{ fontSize: '1.5rem' }}>{service.title}</ServiceTitle>
+                <ServiceDesc style={{ fontSize: '1.125rem', marginTop: '1rem' }}>
+                  {service.description}
+                </ServiceDesc>
+              </ServiceItemLarge>
+            ))
+          )}
         </ServicesItems>
       </ProfessionalServices>
     </SectionWrapper>

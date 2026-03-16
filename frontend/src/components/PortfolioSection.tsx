@@ -75,6 +75,7 @@ const PortfolioSection = () => {
   const [projects, setProjects] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,6 +88,8 @@ const PortfolioSection = () => {
         setCategories(categoriesRes.data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -125,11 +128,19 @@ const PortfolioSection = () => {
           ))}
         </FilterButtons>
       </Header>
-      <Grid>
-        {filteredProjects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} />
-        ))}
-      </Grid>
+      {loading ? (
+        <Grid>
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-[400px] w-full border border-slate-700"></div>
+          ))}
+        </Grid>
+      ) : (
+        <Grid>
+          {filteredProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
+        </Grid>
+      )}
     </SectionWrapper>
   );
 };
