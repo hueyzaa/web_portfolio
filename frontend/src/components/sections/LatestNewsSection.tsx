@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import apiClient from '../../api/apiClient';
-import { useQuery } from '@tanstack/react-query';
-import NewsCard from '../news/NewsCard';
-import NewsFilterTabs from '../news/NewsFilterTabs';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import apiClient from "../../api/apiClient";
+import { useQuery } from "@tanstack/react-query";
+import NewsCard from "../news/NewsCard";
+import NewsFilterTabs from "../news/NewsFilterTabs";
 
 const SectionWrapper = styled.section`
   padding: 8rem 1.5rem;
@@ -97,15 +97,16 @@ const ViewMoreBtn = styled(Link)`
 `;
 
 const LatestNewsSection = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
-  const categories = ['All', 'Technology', 'Design', 'Branding'];
+  const [activeCategory, setActiveCategory] = useState("All");
+  const categories = ["All", "Technology", "Design", "Branding"];
 
   const { data: latestNews = [], isLoading: loading } = useQuery({
-    queryKey: ['latestNews', activeCategory],
+    queryKey: ["latestNews", activeCategory],
     queryFn: async () => {
-      const url = activeCategory === 'All' 
-        ? '/news?limit=6' 
-        : `/news?category=${activeCategory}&limit=6`;
+      const url =
+        activeCategory === "All"
+          ? "/news?limit=6"
+          : `/news?category=${activeCategory}&limit=6`;
       const response = await apiClient.get(url);
       return response.data;
     },
@@ -115,31 +116,37 @@ const LatestNewsSection = () => {
     <SectionWrapper id="blog">
       <Header>
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.6 }}
-           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
         >
           <Label>TIN TỨC & CẢM HỨNG</Label>
           <Title>Cập nhật mới nhất</Title>
           <Subtitle>
-            Những xu hướng công nghệ, thiết kế và câu chuyện sáng tạo được tổng hợp tự động hàng ngày.
+            Những xu hướng công nghệ, thiết kế và câu chuyện sáng tạo được tổng
+            hợp tự động hàng ngày.
           </Subtitle>
         </motion.div>
       </Header>
 
       <FilterContainer>
         <motion.div
-           initial={{ opacity: 0, y: 10 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ delay: 0.2 }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
         >
-          <NewsFilterTabs 
-            categories={categories} 
-            activeCategory={activeCategory} 
-            onCategoryChange={setActiveCategory} 
+          <NewsFilterTabs
+            categories={categories}
+            activeCategory={activeCategory}
+            onCategoryChange={setActiveCategory}
           />
         </motion.div>
       </FilterContainer>

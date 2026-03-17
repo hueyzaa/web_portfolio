@@ -4,7 +4,7 @@ import { AppstoreOutlined, BuildOutlined, RocketOutlined } from '@ant-design/ico
 
 const Services = styled.section`
   padding: 5rem 2rem;
-  background: #0f172a;
+  background: transparent;
 `;
 
 const Content = styled.div`

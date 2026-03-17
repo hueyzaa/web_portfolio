@@ -28,7 +28,7 @@ const LandingPage = () => {
   }, [location.pathname]);
 
   return (
-    <div style={{ backgroundColor: '#101622' }}>
+    <div style={{ backgroundColor: 'transparent' }}>
       <Navbar />
       <HeroSection />
       <AboutSection />

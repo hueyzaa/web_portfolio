@@ -13,7 +13,7 @@ const HeroWrapper = styled.section`
   justify-content: center;
   padding-top: 80px;
   overflow: hidden;
-  background-color: var(--bg-color);
+  background-color: transparent;
 `;
 
 const BackgroundContainer = styled.div`
@@ -151,23 +151,6 @@ const HeroSection = () => {
   return (
     <HeroWrapper id="hero">
       <BackgroundContainer>
-        <LiquidEther
-          colors={['#5227FF', '#FF9FFC', '#B19EEF']}
-          mouseForce={20}
-          cursorSize={100}
-          isViscous
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.5}
-          isBounce={false}
-          autoDemo
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          takeoverDuration={0.25}
-          autoResumeDelay={3000}
-          autoRampDuration={0.6}
-        />
         <BackgroundImage $imageUrl={fullImageUrl} />
       </BackgroundContainer>
       <HeroContent>

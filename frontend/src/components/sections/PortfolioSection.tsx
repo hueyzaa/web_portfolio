@@ -9,7 +9,7 @@ const SectionWrapper = styled.section`
   padding: 6rem 1.5rem;
   max-width: 1280px;
   margin: 0 auto;
-  background: rgba(15, 23, 42, 0.3);
+  background: transparent;
 `;
 
 const Header = styled.div`
