@@ -5,7 +5,9 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  Header,
 } from '@nestjs/common';
+import { CacheTTL } from '@nestjs/cache-manager';
 import { ProjectsService } from '../projects/projects.service';
 import { SkillsService } from '../skills/skills.service';
 import { ProfileService } from '../profile/profile.service';
@@ -28,6 +30,8 @@ export class PublicController {
     private readonly contactService: ContactService,
   ) {}
 
+  @Header('Cache-Control', 'public, max-age=3600')
+  @CacheTTL(3600) // 1 hour for projects list
   @Get('projects')
   async findAllProjects() {
     return this.projectsService.findAll();
@@ -38,6 +42,8 @@ export class PublicController {
     return this.projectsService.findOne(id);
   }
 
+  @Header('Cache-Control', 'public, max-age=600')
+  @CacheTTL(600) // 10 minutes for skills
   @Get('skills')
   async findAllSkills() {
     return this.skillsService.findAll();

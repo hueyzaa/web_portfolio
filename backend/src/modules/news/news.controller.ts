@@ -10,16 +10,19 @@ import {
 } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
 
+  @CacheTTL(1800) // 30 minutes for news list
   @Get()
   findAll(@Query('category') category?: string) {
     return this.newsService.findAll(category);
   }
 
+  @CacheTTL(3600) // 1 hour for featured news
   @Get('featured')
   findFeatured() {
     return this.newsService.findFeatured();

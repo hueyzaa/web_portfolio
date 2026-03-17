@@ -11,15 +11,36 @@ if (!global.crypto) {
 }
 /* eslint-enable @typescript-eslint/no-require-imports */
 
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { Request, Response, NextFunction } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Bulletproof Cache-Control Middleware
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    if (req.method === 'GET' || req.method === 'HEAD') {
+      const url = req.originalUrl || req.url;
+      if (url.includes('/public/projects')) {
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+      } else if (url.includes('/public/skills')) {
+        res.setHeader('Cache-Control', 'public, max-age=600');
+      } else if (url.includes('/public/news') || url.includes('/news')) {
+        res.setHeader('Cache-Control', 'public, max-age=1800');
+      } else if (
+        url.includes('/public/profile') ||
+        url.includes('/public/settings')
+      ) {
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+      }
+    }
+    next();
+  });
 
   const configService = app.get(ConfigService);
   const port = process.env.PORT || 9999;
@@ -30,6 +51,7 @@ async function bootstrap() {
     credentials: true,
   });
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const uploadPath = configService.get<string>('env.upload_path') || 'uploads';
   // Serve static files from the upload directory

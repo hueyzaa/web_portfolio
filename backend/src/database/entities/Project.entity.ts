@@ -6,7 +6,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Category } from './Category.entity';
-import { Expose } from 'class-transformer';
+import { Expose, Exclude } from 'class-transformer';
 
 @Entity('projects')
 export class Project {
@@ -33,7 +33,7 @@ export class Project {
   })
   category: Category | null;
 
-  @Expose()
+  @Exclude() // Exclude content by default (heavy field)
   @Column({ type: 'longtext', nullable: true })
   content: string;
 

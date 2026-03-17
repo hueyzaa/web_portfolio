@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PublicController = void 0;
 const common_1 = require("@nestjs/common");
+const cache_manager_1 = require("@nestjs/cache-manager");
 const projects_service_1 = require("../projects/projects.service");
 const skills_service_1 = require("../skills/skills.service");
 const profile_service_1 = require("../profile/profile.service");
@@ -65,6 +66,8 @@ let PublicController = class PublicController {
 };
 exports.PublicController = PublicController;
 __decorate([
+    (0, common_1.Header)('Cache-Control', 'public, max-age=3600'),
+    (0, cache_manager_1.CacheTTL)(3600),
     (0, common_1.Get)('projects'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -78,6 +81,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PublicController.prototype, "findOneProject", null);
 __decorate([
+    (0, common_1.Header)('Cache-Control', 'public, max-age=600'),
+    (0, cache_manager_1.CacheTTL)(600),
     (0, common_1.Get)('skills'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

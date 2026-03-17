@@ -52,7 +52,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Project.prototype, "category", void 0);
 __decorate([
-    (0, class_transformer_1.Expose)(),
+    (0, class_transformer_1.Exclude)(),
     (0, typeorm_1.Column)({ type: 'longtext', nullable: true }),
     __metadata("design:type", String)
 ], Project.prototype, "content", void 0);

@@ -27,18 +27,22 @@ export class News {
   @Column({ nullable: true })
   source: string;
 
+  @Index()
   @Column({ nullable: true })
   category: string; // Technology, Design, Branding
 
   @Column({ type: 'timestamp', nullable: true })
   published_at: Date;
 
+  @Index()
   @CreateDateColumn()
   created_at: Date;
 
+  @Index()
   @Column({ default: false })
   is_featured: boolean;
 
+  @Index()
   @Column({ default: false })
   is_hidden: boolean;
 }

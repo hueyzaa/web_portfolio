@@ -10,7 +10,10 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
+const cache_manager_1 = require("@nestjs/cache-manager");
+const core_1 = require("@nestjs/core");
 const typeorm_1 = require("@nestjs/typeorm");
+const cache_control_middleware_1 = require("./middlewares/cache-control.middleware");
 const Project_entity_1 = require("./database/entities/Project.entity");
 const Skill_entity_1 = require("./database/entities/Skill.entity");
 const Category_entity_1 = require("./database/entities/Category.entity");
@@ -41,6 +44,9 @@ const public_module_1 = require("./modules/public/public.module");
 const news_entity_1 = require("./modules/news/news.entity");
 const news_module_1 = require("./modules/news/news.module");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer.apply(cache_control_middleware_1.CacheControlMiddleware).forRoutes('*');
+    }
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
@@ -50,6 +56,11 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
                 load: [env_config_1.envConfig],
                 envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
+            }),
+            cache_manager_1.CacheModule.register({
+                isGlobal: true,
+                ttl: 60 * 1000,
+                max: 100,
             }),
             schedule_1.ScheduleModule.forRoot(),
             typeorm_1.TypeOrmModule.forRootAsync({
@@ -85,7 +96,13 @@ exports.AppModule = AppModule = __decorate([
             news_module_1.NewsModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [
+            app_service_1.AppService,
+            {
+                provide: core_1.APP_INTERCEPTOR,
+                useClass: cache_manager_1.CacheInterceptor,
+            },
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

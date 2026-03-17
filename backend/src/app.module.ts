@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CacheModule, CacheInterceptor } from '@nestjs/cache-manager';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CacheControlMiddleware } from './middlewares/cache-control.middleware';
+import { NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { Project } from './database/entities/Project.entity';
 import { Skill } from './database/entities/Skill.entity';
 import { Category } from './database/entities/Category.entity';
@@ -41,6 +45,11 @@ import { NewsModule } from './modules/news/news.module';
       load: [envConfig],
       envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
     }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 60 * 1000, // 1 minute default TTL
+      max: 100, // maximum number of items in cache
+    }),
     ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -76,6 +85,16 @@ import { NewsModule } from './modules/news/news.module';
     NewsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CacheControlMiddleware).forRoutes('*');
+  }
+}

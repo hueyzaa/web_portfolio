@@ -201,18 +201,15 @@ const Navbar: React.FC = () => {
                   viewBox="0 0 48 48"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d=""
-                    fill="currentColor"
-                  ></path>
+                  <path d="" fill="currentColor"></path>
                 </svg>
               )}
               <span>{siteName}</span>
             </LogoWrapper>
           </Link>
           <NavLinks>
-            <Link to="/portfolio">Dự án</Link>
             <Link to="/about">Giới thiệu</Link>
+            <Link to="/portfolio">Dự án</Link>
             <Link to="/skills">Kỹ năng</Link>
             <Link to="/services">Dịch vụ</Link>
             <Link to="/blog">Blog</Link>

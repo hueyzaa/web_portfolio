@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
-import HeroSection from '../components/HeroSection';
-import AboutSection from '../components/AboutSection';
-import PortfolioSection from '../components/PortfolioSection';
-import SkillsSection from '../components/SkillsSection';
+import HeroSection from '../components/sections/HeroSection';
+import AboutSection from '../components/sections/AboutSection';
+import PortfolioSection from '../components/sections/PortfolioSection';
+import SkillsSection from '../components/sections/SkillsSection';
 import ServicesSection from '../components/sections/ServicesSection';
-import LatestNewsSection from '../components/LatestNewsSection';
-import ContactSection from '../components/ContactSection';
+import LatestNewsSection from '../components/sections/LatestNewsSection';
+import ContactSection from '../components/sections/ContactSection';
 import Footer from '../components/layout/Footer';
 
 const LandingPage = () => {

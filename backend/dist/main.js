@@ -17,6 +17,25 @@ const config_1 = require("@nestjs/config");
 const path_1 = require("path");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.use((req, res, next) => {
+        if (req.method === 'GET' || req.method === 'HEAD') {
+            const url = req.originalUrl || req.url;
+            if (url.includes('/public/projects')) {
+                res.setHeader('Cache-Control', 'public, max-age=3600');
+            }
+            else if (url.includes('/public/skills')) {
+                res.setHeader('Cache-Control', 'public, max-age=600');
+            }
+            else if (url.includes('/public/news') || url.includes('/news')) {
+                res.setHeader('Cache-Control', 'public, max-age=1800');
+            }
+            else if (url.includes('/public/profile') ||
+                url.includes('/public/settings')) {
+                res.setHeader('Cache-Control', 'public, max-age=3600');
+            }
+        }
+        next();
+    });
     const configService = app.get(config_1.ConfigService);
     const port = process.env.PORT || 9999;
     const corsOrigin = configService.get('env.cors_origin');
@@ -25,6 +44,7 @@ async function bootstrap() {
         credentials: true,
     });
     app.useGlobalPipes(new common_1.ValidationPipe({ transform: true }));
+    app.useGlobalInterceptors(new common_1.ClassSerializerInterceptor(app.get(core_1.Reflector)));
     const uploadPath = configService.get('env.upload_path') || 'uploads';
     app.useStaticAssets((0, path_1.join)(process.cwd(), uploadPath), {
         prefix: `/${uploadPath}`,

@@ -16,6 +16,7 @@ exports.NewsController = void 0;
 const common_1 = require("@nestjs/common");
 const news_service_1 = require("./news.service");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const cache_manager_1 = require("@nestjs/cache-manager");
 let NewsController = class NewsController {
     newsService;
     constructor(newsService) {
@@ -45,6 +46,7 @@ let NewsController = class NewsController {
 };
 exports.NewsController = NewsController;
 __decorate([
+    (0, cache_manager_1.CacheTTL)(1800),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)('category')),
     __metadata("design:type", Function),
@@ -52,6 +54,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], NewsController.prototype, "findAll", null);
 __decorate([
+    (0, cache_manager_1.CacheTTL)(3600),
     (0, common_1.Get)('featured'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),

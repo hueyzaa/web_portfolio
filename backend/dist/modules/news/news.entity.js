@@ -51,6 +51,7 @@ __decorate([
     __metadata("design:type", String)
 ], News.prototype, "source", void 0);
 __decorate([
+    (0, typeorm_1.Index)(),
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], News.prototype, "category", void 0);
@@ -59,14 +60,17 @@ __decorate([
     __metadata("design:type", Date)
 ], News.prototype, "published_at", void 0);
 __decorate([
+    (0, typeorm_1.Index)(),
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], News.prototype, "created_at", void 0);
 __decorate([
+    (0, typeorm_1.Index)(),
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
 ], News.prototype, "is_featured", void 0);
 __decorate([
+    (0, typeorm_1.Index)(),
     (0, typeorm_1.Column)({ default: false }),
     __metadata("design:type", Boolean)
 ], News.prototype, "is_hidden", void 0);
