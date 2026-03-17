@@ -6,10 +6,24 @@ import apiClient from "../../api/apiClient";
 import { useQuery } from "@tanstack/react-query";
 
 const SectionWrapper = styled.section`
-  padding: 6rem 1.5rem;
-  max-width: 1280px;
+  padding: 8rem 2rem;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    min-height: auto;
+    padding: 6rem 1.5rem;
+  }
+`;
+
+const Container = styled.div`
+  max-width: 1440px;
   margin: 0 auto;
-  background: transparent;
+  width: 100%;
 `;
 
 const Header = styled.div`
@@ -26,10 +40,13 @@ const Header = styled.div`
 `;
 
 const Label = styled.span`
-  color: var(--primary-color);
-  font-weight: 700;
+  background: var(--hologram-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
   font-size: 0.875rem;
 `;
 
@@ -48,10 +65,12 @@ const FilterButtons = styled.div`
 const FilterBtn = styled.button<{ active?: boolean }>`
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  font-weight: 500;
-  color: ${props => props.active ? 'var(--primary-color)' : '#94a3b8'};
-  border-bottom: 2px solid ${props => props.active ? 'var(--primary-color)' : 'transparent'};
+  font-weight: 700;
+  color: ${props => props.active ? 'white' : '#94a3b8'};
+  border-bottom: 2px solid ${props => props.active ? 'var(--primary-hologram)' : 'transparent'};
   transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   
   &:hover {
     color: ${props => props.active ? 'var(--primary-color)' : '#f1f5f9'};
@@ -99,46 +118,48 @@ const PortfolioSection = () => {
 
   return (
     <SectionWrapper id="portfolio">
-      <Header>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <Label>DỰ ÁN</Label>
-          <Title>Các dự án tiêu biểu</Title>
-        </motion.div>
-        <FilterButtons>
-          <FilterBtn 
-            active={activeCategory === null} 
-            onClick={() => setActiveCategory(null)}
+      <Container>
+        <Header>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
-            Tất cả
-          </FilterBtn>
-          {categories.map((cat: any) => (
+            <Label>DỰ ÁN</Label>
+            <Title>Các dự án tiêu biểu</Title>
+          </motion.div>
+          <FilterButtons>
             <FilterBtn 
-              key={cat.id} 
-              active={activeCategory === cat.id}
-              onClick={() => setActiveCategory(cat.id)}
+              active={activeCategory === null} 
+              onClick={() => setActiveCategory(null)}
             >
-              {cat.name}
+              Tất cả
             </FilterBtn>
-          ))}
-        </FilterButtons>
-      </Header>
-      {loading ? (
-        <Grid>
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-[400px] w-full border border-slate-700"></div>
-          ))}
-        </Grid>
-      ) : (
-        <Grid>
-          {filteredProjects.map((project: any, index: number) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
-        </Grid>
-      )}
+            {categories.map((cat: any) => (
+              <FilterBtn 
+                key={cat.id} 
+                active={activeCategory === cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+              >
+                {cat.name}
+              </FilterBtn>
+            ))}
+          </FilterButtons>
+        </Header>
+        {loading ? (
+          <Grid>
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-[400px] w-full border border-slate-700"></div>
+            ))}
+          </Grid>
+        ) : (
+          <Grid>
+            {filteredProjects.map((project: any, index: number) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </Grid>
+        )}
+      </Container>
     </SectionWrapper>
   );
 };

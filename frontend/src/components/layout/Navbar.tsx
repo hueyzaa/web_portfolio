@@ -11,12 +11,23 @@ const Nav = styled.nav`
   left: 0;
   width: 100%;
   height: 80px;
-  background: rgba(16, 22, 34, 0.8);
-  backdrop-filter: blur(12px);
+  background: rgba(16, 22, 34, 0.4);
+  backdrop-filter: blur(20px);
   z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--hologram-gradient);
+    opacity: 0.3;
+  }
 `;
 
 const Container = styled.div`
@@ -33,17 +44,15 @@ const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: var(--primary-color);
   font-weight: 700;
   font-size: 1.25rem;
-
-  svg {
-    width: 2rem;
-    height: 2rem;
-  }
+  background: var(--hologram-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 
   span {
-    color: white;
+    color: inherit;
   }
 `;
 
@@ -60,30 +69,67 @@ const NavLinks = styled.div`
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-main);
-    transition: color 0.3s;
+    transition: all 0.3s;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--hologram-gradient);
+      transition: width 0.3s;
+    }
 
     &:hover {
-      color: var(--primary-color);
+      color: var(--primary-hologram);
+      &::after {
+        width: 100%;
+      }
     }
   }
 `;
 
 const ContactBtn = styled(Link)`
-  padding: 0.625rem 1.25rem;
-  border-radius: 0.5rem;
-  background: var(--primary-color);
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.75rem;
+  background: var(--hologram-gradient);
+  background-size: 200% auto;
   color: white;
   font-size: 0.875rem;
   font-weight: 700;
-  transition: all 0.3s;
-
-  box-shadow: 0 4px 15px rgba(13, 89, 242, 0.3);
+  transition: all 0.4s;
+  box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
+  position: relative;
+  overflow: hidden;
 
   &:hover {
-    background: #0b4ecd;
-    box-shadow: 0 4px 20px rgba(13, 89, 242, 0.5);
-    transform: translateY(-1px);
+    background-position: right center;
+    box-shadow: 0 4px 25px rgba(189, 0, 255, 0.4);
+    transform: translateY(-2px) scale(1.02);
     color: white;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: all 0.6s;
+  }
+
+  &:hover::before {
+    left: 100%;
   }
 `;
 

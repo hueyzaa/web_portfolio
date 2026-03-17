@@ -3,15 +3,46 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../api/apiClient';
+import TiltCard from '../common/TiltCard';
 
 const CardLink = styled(Link)<{ $offset?: boolean }>`
   position: relative;
   display: block;
   aspect-ratio: 4/5;
-  border-radius: 1.5rem;
+  border-radius: 2rem;
   overflow: hidden;
-  background: #1e293b;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 2rem;
+    padding: 1px;
+    background: var(--hologram-gradient);
+    -webkit-mask: 
+       linear-gradient(#fff 0 0) content-box, 
+       linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: transparent;
+    box-shadow: 0 20px 40px -15px rgba(0, 242, 255, 0.2);
+    
+    &::before {
+      opacity: 0.6;
+    }
+  }
   
   @media (min-width: 1024px) {
     margin-top: ${props => props.$offset ? '3rem' : '0'};
@@ -47,10 +78,14 @@ const Overlay = styled.div`
 `;
 
 const Category = styled.p`
-  font-size: 0.875rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 800;
   text-transform: uppercase;
-  color: var(--primary-color);
+  background: var(--hologram-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.15em;
   margin-bottom: 0.5rem;
 `;
 
@@ -81,16 +116,18 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, index }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <CardLink
-        to={`/project/${project.id}`}
-        $offset={isOffset}
-      >
-        <Image src={`${API_URL}${project.image}`} alt={project.title} />
-        <Overlay>
-          <Category>{categoryName}</Category>
-          <Title>{project.title}</Title>
-        </Overlay>
-      </CardLink>
+      <TiltCard>
+        <CardLink
+          to={`/project/${project.id}`}
+          $offset={isOffset}
+        >
+          <Image src={`${API_URL}${project.image}`} alt={project.title} />
+          <Overlay>
+            <Category>{categoryName}</Category>
+            <Title>{project.title}</Title>
+          </Overlay>
+        </CardLink>
+      </TiltCard>
     </motion.div>
   );
 };

@@ -37,7 +37,22 @@ const BackgroundImage = styled.div<{ $imageUrl?: string }>`
   background-image: url(${props => props.$imageUrl || ''});
   background-size: cover;
   background-position: center;
-  opacity: 0.3;
+  opacity: 0.2;
+  filter: saturate(1.5) contrast(1.1);
+  mix-blend-mode: color-dodge;
+`;
+
+const HologramAura = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 60%;
+  background: radial-gradient(circle at center, rgba(0, 242, 255, 0.1) 0%, transparent 60%);
+  filter: blur(100px);
+  z-index: 1;
+  pointer-events: none;
 `;
 
 const HeroContent = styled.div`
@@ -55,6 +70,8 @@ const Title = styled(motion.h1)`
   margin-bottom: 1.5rem;
   letter-spacing: -0.05em;
   line-height: 1.1;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2),
+               0 0 40px rgba(0, 242, 255, 0.1);
 
   @media (min-width: 768px) {
     font-size: 6rem;
@@ -63,9 +80,14 @@ const Title = styled(motion.h1)`
 
 const Tagline = styled(motion.p)`
   font-size: 1.25rem;
-  font-weight: 500;
-  color: #cbd5e1;
+  font-weight: 700;
+  background: var(--hologram-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 
   @media (min-width: 768px) {
     font-size: 1.5rem;
@@ -95,16 +117,20 @@ const ButtonGroup = styled.div`
 
 const PrimaryButton = styled.a`
   width: 100%;
-  padding: 1rem 2rem;
-  background: var(--primary-color);
+  padding: 1.25rem 2.5rem;
+  background: var(--hologram-gradient);
+  background-size: 200% auto;
   color: white;
-  border-radius: 0.75rem;
-  font-weight: 700;
+  border-radius: 1rem;
+  font-weight: 800;
   font-size: 1.125rem;
-  transition: transform 0.3s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 25px rgba(0, 242, 255, 0.3);
   
   &:hover {
-    transform: scale(1.05);
+    background-position: right center;
+    transform: scale(1.05) translateY(-4px);
+    box-shadow: 0 12px 35px rgba(189, 0, 255, 0.5);
     color: white;
   }
 
@@ -115,19 +141,22 @@ const PrimaryButton = styled.a`
 
 const SecondaryButton = styled.a`
   width: 100%;
-  padding: 1rem 2rem;
-  background: rgba(30, 41, 59, 0.5);
+  padding: 1.25rem 2.5rem;
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
   color: white;
-  border: 1px solid #334155;
-  border-radius: 0.75rem;
-  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  font-weight: 800;
   font-size: 1.125rem;
-  transition: background 0.3s;
+  transition: all 0.3s;
   
   &:hover {
-    background: #1e293b;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary-hologram);
+    transform: translateY(-2px);
     color: white;
+    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
   }
 
   @media (min-width: 640px) {
@@ -152,6 +181,7 @@ const HeroSection = () => {
     <HeroWrapper id="hero">
       <BackgroundContainer>
         <BackgroundImage $imageUrl={fullImageUrl} />
+        <HologramAura />
       </BackgroundContainer>
       <HeroContent>
         <Title

@@ -5,9 +5,24 @@ import apiClient from '../../api/apiClient';
 import { useQuery } from '@tanstack/react-query';
 
 const SectionWrapper = styled.section`
-  padding: 6rem 1.5rem;
-  max-width: 1280px;
+  padding: 8rem 2rem;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    min-height: auto;
+    padding: 6rem 1.5rem;
+  }
+`;
+
+const Container = styled.div`
+  max-width: 1440px;
   margin: 0 auto;
+  width: 100%;
 `;
 
 const Grid = styled.div`
@@ -27,10 +42,13 @@ const Content = styled.div`
 `;
 
 const Label = styled.span`
-  color: var(--primary-color);
-  font-weight: 700;
+  background: var(--hologram-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
   font-size: 0.875rem;
 `;
 
@@ -73,8 +91,11 @@ const ProgressBar = styled.div`
 const Progress = styled.div<{ width: number }>`
   height: 100%;
   width: ${props => props.width}%;
-  background: var(--primary-color);
+  background: var(--hologram-gradient);
+  background-size: 200% auto;
   border-radius: 9999px;
+  box-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
+  animation: shimmer 4s infinite linear;
 `;
 
 const ServicesGrid = styled.div`
@@ -88,26 +109,33 @@ const ServicesGrid = styled.div`
 `;
 
 const ServiceCard = styled.div`
-  padding: 2rem;
-  background: rgba(15, 23, 42, 0.5);
-  border-radius: 1.5rem;
-  border: 1px solid #1e293b;
-  transition: border-color 0.3s;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 
   &:hover {
-    border-color: rgba(13, 89, 242, 0.5);
+    border-color: var(--primary-hologram);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 242, 255, 0.15);
   }
 
   span {
     font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
+    background: var(--hologram-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
     display: inline-block;
-    transition: transform 0.3s;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   &:hover span {
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(5deg);
   }
 `;
 
@@ -139,31 +167,40 @@ const ServicesItems = styled.div`
 `;
 
 const ServiceItemLarge = styled.div`
-  padding: 2.5rem;
-  background: #0f172a;
-  border-radius: 1.5rem;
-  border: 1px solid #1e293b;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(16px);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   text-align: left;
-  transition: transform 0.3s;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 
   &:hover {
-    transform: translateY(-0.5rem);
+    transform: translateY(-10px);
+    border-color: var(--primary-hologram);
+    box-shadow: 0 20px 40px rgba(0, 242, 255, 0.1);
   }
 `;
 
 const IconWrapper = styled.div`
-  width: 4rem;
-  height: 4rem;
-  background: rgba(13, 89, 242, 0.1);
-  border-radius: 0.75rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  background: rgba(0, 242, 255, 0.05);
+  border: 1px solid rgba(0, 242, 255, 0.1);
+  border-radius: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary-color);
   margin-bottom: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 242, 255, 0.1);
 
   span {
-    font-size: 2rem;
+    font-size: 2.25rem;
+    background: var(--hologram-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 `;
 
@@ -191,76 +228,78 @@ const SkillsSection = () => {
 
   return (
     <SectionWrapper id="skills">
-      <Grid>
-        <Content>
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <Label>Kỹ Năng</Label>
-            <Title>Kỹ năng chuyên môn</Title>
-            <SkillsList>
-              {loading ? (
-                Array(4).fill(0).map((_, i) => (
-                  <div key={i} className="animate-pulse h-12 bg-slate-800/50 rounded-lg w-full"></div>
-                ))
-              ) : (
-                skills.map((skill: any) => (
-                  <SkillItem key={skill.id}>
-                    <SkillInfo>
-                      <span>{skill.name}</span>
-                      <span style={{ color: 'var(--primary-color)' }}>{skill.level}%</span>
-                    </SkillInfo>
-                    <ProgressBar>
-                      <Progress width={skill.level} />
-                    </ProgressBar>
-                  </SkillItem>
-                ))
-              )}
-            </SkillsList>
-          </motion.div>
-        </Content>
-        <ServicesGrid>
-          {loading ? (
-            Array(4).fill(0).map((_, i) => (
-              <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-40 w-full border border-slate-700"></div>
-            ))
-          ) : (
-            gridServices.map((service: any) => (
-              <ServiceCard key={service.id}>
-                <span className="material-symbols-outlined">{service.icon}</span>
-                <ServiceTitle>{service.title}</ServiceTitle>
-                <ServiceDesc>{service.description}</ServiceDesc>
-              </ServiceCard>
-            ))
-          )}
-        </ServicesGrid>
-      </Grid>
-
-      <ProfessionalServices>
-        <Label>DỊCH VỤ</Label>
-        <Title style={{ marginTop: '0.5rem' }}>Dịch vụ Chuyên nghiệp</Title>
-        <ServicesItems>
-          {loading ? (
-            Array(3).fill(0).map((_, i) => (
-              <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-64 w-full border border-slate-700"></div>
-            ))
-          ) : (
-            professionalServices.map((service: any) => (
-              <ServiceItemLarge key={service.id}>
-                <IconWrapper>
+      <Container>
+        <Grid>
+          <Content>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <Label>Kỹ Năng</Label>
+              <Title>Kỹ năng chuyên môn</Title>
+              <SkillsList>
+                {loading ? (
+                  Array(4).fill(0).map((_, i) => (
+                    <div key={i} className="animate-pulse h-12 bg-slate-800/50 rounded-lg w-full"></div>
+                  ))
+                ) : (
+                  skills.map((skill: any) => (
+                    <SkillItem key={skill.id}>
+                      <SkillInfo>
+                        <span>{skill.name}</span>
+                        <span style={{ color: 'var(--primary-hologram)' }}>{skill.level}%</span>
+                      </SkillInfo>
+                      <ProgressBar>
+                        <Progress width={skill.level} />
+                      </ProgressBar>
+                    </SkillItem>
+                  ))
+                )}
+              </SkillsList>
+            </motion.div>
+          </Content>
+          <ServicesGrid>
+            {loading ? (
+              Array(4).fill(0).map((_, i) => (
+                <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-40 w-full border border-slate-700"></div>
+              ))
+            ) : (
+              gridServices.map((service: any) => (
+                <ServiceCard key={service.id}>
                   <span className="material-symbols-outlined">{service.icon}</span>
-                </IconWrapper>
-                <ServiceTitle style={{ fontSize: '1.5rem' }}>{service.title}</ServiceTitle>
-                <ServiceDesc style={{ fontSize: '1.125rem', marginTop: '1rem' }}>
-                  {service.description}
-                </ServiceDesc>
-              </ServiceItemLarge>
-            ))
-          )}
-        </ServicesItems>
-      </ProfessionalServices>
+                  <ServiceTitle>{service.title}</ServiceTitle>
+                  <ServiceDesc>{service.description}</ServiceDesc>
+                </ServiceCard>
+              ))
+            )}
+          </ServicesGrid>
+        </Grid>
+
+        <ProfessionalServices>
+          <Label>DỊCH VỤ</Label>
+          <Title style={{ marginTop: '0.5rem' }}>Dịch vụ Chuyên nghiệp</Title>
+          <ServicesItems>
+            {loading ? (
+              Array(3).fill(0).map((_, i) => (
+                <div key={i} className="animate-pulse bg-slate-800/50 rounded-2xl h-64 w-full border border-slate-700"></div>
+              ))
+            ) : (
+              professionalServices.map((service: any) => (
+                <ServiceItemLarge key={service.id}>
+                  <IconWrapper>
+                    <span className="material-symbols-outlined">{service.icon}</span>
+                  </IconWrapper>
+                  <ServiceTitle style={{ fontSize: '1.5rem' }}>{service.title}</ServiceTitle>
+                  <ServiceDesc style={{ fontSize: '1.125rem', marginTop: '1rem' }}>
+                    {service.description}
+                  </ServiceDesc>
+                </ServiceItemLarge>
+              ))
+            )}
+          </ServicesItems>
+        </ProfessionalServices>
+      </Container>
     </SectionWrapper>
   );
 };

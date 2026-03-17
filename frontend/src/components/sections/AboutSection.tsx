@@ -3,11 +3,20 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import apiClient, { API_URL } from '../../api/apiClient';
 import { useQuery } from '@tanstack/react-query';
+import TiltCard from '../common/TiltCard';
 
 const SectionWrapper = styled.section`
-  padding: 6rem 1.5rem;
-  max-width: 1280px;
+  padding: 8rem 1.5rem;
+  max-width: 1440px;
   margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 6rem 1.5rem;
+    min-height: auto;
+  }
 `;
 
 const Grid = styled.div`
@@ -55,10 +64,13 @@ const Content = styled.div`
 `;
 
 const Label = styled.span`
-  color: var(--primary-color);
-  font-weight: 700;
+  background: var(--hologram-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
   font-size: 0.875rem;
 `;
 
@@ -94,8 +106,11 @@ const StatItem = styled.div`
 
 const StatNumber = styled.div`
   font-size: 1.875rem;
-  font-weight: 700;
-  color: var(--primary-color);
+  font-weight: 800;
+  background: var(--hologram-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 `;
 
 const StatLabel = styled.div`
@@ -119,15 +134,17 @@ const AboutSection = () => {
   return (
     <SectionWrapper id="about">
       <Grid>
-        <ImageContainer>
-          <ProfileImage 
-            src={profile.imageUrl 
-              ? (profile.imageUrl.startsWith('http') ? profile.imageUrl : `${API_URL}${profile.imageUrl}`)
-              : ""
-            } 
-            alt="Profile" 
-          />
-        </ImageContainer>
+        <TiltCard scale={1.02} tiltMax={10}>
+          <ImageContainer>
+            <ProfileImage 
+              src={profile.imageUrl 
+                ? (profile.imageUrl.startsWith('http') ? profile.imageUrl : `${API_URL}${profile.imageUrl}`)
+                : ""
+              } 
+              alt="Profile" 
+            />
+          </ImageContainer>
+        </TiltCard>
         <Content>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
