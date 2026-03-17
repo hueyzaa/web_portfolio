@@ -3,8 +3,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { GlobalStyle } from './styles/GlobalStyle';
 import AppRouter from './router/AppRouter';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useIsFetching } from '@tanstack/react-query';
 import LiquidEther from './components/common/LiquidEther';
+import GlobalLoader from './components/common/GlobalLoader';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -12,9 +13,23 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 60 * 5, // 5 minutes
       gcTime: 1000 * 60 * 30, // 30 minutes
       refetchOnWindowFocus: false,
+      retry: 1,
     },
   },
 });
+
+const RootContent = () => {
+  const isFetching = useIsFetching();
+  
+  // We consider the site "loading" if there's at least one active query
+  // This ensures the spinner stays until initial data is fetched.
+  return (
+    <>
+      <GlobalLoader isLoading={isFetching > 0} />
+      <AppRouter />
+    </>
+  );
+};
 
 function App() {
   return (
@@ -40,7 +55,7 @@ function App() {
             autoRampDuration={0.6}
             style={{ position: 'fixed', inset: 0, zIndex: -1 }}
           />
-          <AppRouter />
+          <RootContent />
         </BrowserRouter>
       </QueryClientProvider>
     </HelmetProvider>
